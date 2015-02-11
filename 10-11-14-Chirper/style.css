@@ -1,0 +1,32 @@
+﻿.friends {
+    background-color: #f9f9f9;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.friends hr {
+    background-color: black;
+    border-width: 2px;
+}
+
+.friendsInfo {
+    margin: auto;
+    text-align: center;
+ 
+}
+
+.tweet {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: inset;
+    background-color: #F9F9F9;
+}
+
+#panel0,
+#panel1,
+#panel2 {
+    padding-bottom: 20px;
+}
