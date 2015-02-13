@@ -19,54 +19,31 @@ Array.prototype.remove = function (index) {
     }
 }
 
-chirperApp.Tweet = function (user, timestamp, tweet) {
+chirperApp.Tweet = function (user, timestamp, message) {
     this.user = user;
     this.timestamp = timestamp;
-    this.tweet = tweet;
+    this.message = message;
 }
 
-/*
-  <label for="userID">Enter Your Name:</label>
-                        <input type="text" id="userID" /><br />
-                        <label for="timestampID">Timestamp:</label>
-                        <input type="text" id="timestampID" /><br />
-                        <label for="tweetID">Tweet:</label>
-                        <input type="text" id="tweetID" /><br />
-                        <label for="locationID">Location:</label>
-                        <input type="text" id="locationID"/><br />
-                        <label for="photoID">Photo:</label>
-                        <input type="text" id="photoID" label>
-*/
 
 chirperApp.showAllModalFields = function () {
     $("#timestampDiv, #tweetDiv, #photoDiv, #userNameDiv, #locationDiv, #friendURLDiv").show();
-    //$("#tweetDiv").show();
-    //$("#photoDiv").show();
-    //$("#userNameDiv").show();
-    //$("#locationDiv").show();
-    //$("#friendURLDiv").show();
 }
 
 chirperApp.launchUserForm = function () {
     this.showAllModalFields();
     // Hide timestamp
     $("#timestampDiv, #tweetDiv, #friendURLDiv").hide();
-    //$("#tweetDiv").hide();
-    //$("#friendURLDiv").hide();
+    $('#myModalLabel').html('Add A User');
     document.getElementById('saveTweetID').onclick = function () { chirperApp.addUser(); }
-
     $('#myModal1').modal();
 }
 
 // Only want url
 chirperApp.launchFriendForm = function () {
     this.showAllModalFields();
-    // Hide timestamp
+    $('#myModalLabel').html('Add A Friend');
     $("#timestampDiv, #tweetDiv, #photoDiv, #userNameDiv, #locationDiv").hide();
-    //$("#tweetDiv").hide();
-    //$("#photoDiv").hide();
-    //$("#userNameDiv").hide();
-    //$("#locationDiv").hide();
     document.getElementById('saveTweetID').onclick = function () { chirperApp.addFriend(); }
     $('#myModal1').modal();
 }
@@ -75,10 +52,6 @@ chirperApp.updateFriendForm = function (index) {
     this.showAllModalFields();
     // Hide timestamp
     $("#timestampDiv, #tweetDiv, #photoDiv, #userNameDiv,#locationDiv").hide();
-    //$("#tweetDiv").hide();
-    //$("#photoDiv").hide();
-    //$("#userNameDiv").hide();
-    //$("#locationDiv").hide();
     $('#saveTweetID').html('Update Friend Info');
     $('#myModalLabel').html('Edit Friend Info');
     // Put existing url into field
@@ -93,10 +66,6 @@ chirperApp.updateUserForm = function () {
     this.showAllModalFields();
     // Hide timestamp
     $("#timestampDiv, #tweetDiv, #friendURLDiv").hide();
-    //$("#tweetDiv").hide();
-    //$("#photoDiv").hide();
-    //$("#userNameDiv").hide();
-    //$("#locationDiv").hide();
     $('#saveTweetID').html('Update User Info');
     $('#myModalLabel').html('Edit User Info');
     // Put existing url into field
@@ -114,8 +83,7 @@ chirperApp.launchTweetForm = function () {
     this.showAllModalFields();
     var tStamp = new Date();
     $("#photoDiv, #locationDiv, #friendURLDiv").hide();
-    //$("#locationDiv").hide();
-    //$("#friendURLDiv").hide();
+    $('#myModalLabel').html('Create Tweet');
     $('#timestampID').val(tStamp);
     // disable so timestamp can't be changed
     $("#timestampID").prop('disabled', true);
@@ -143,15 +111,13 @@ chirperApp.displayAllFriendTweets = function (all, index) {
 // index == -2 represents user
 chirperApp.displayTweets = function (index) {
     var tweetsToDisplay = [];
-//    alert('entered display tweets');
+
     // Show user
     if (index == -2) {
-        //$('#myTweetsTab').addClass('active');
         tweetsToDisplay = this.Tweets;
     }
     // Show timeline - put all tweets into one array
     else if (index == -1) {
-        //$('#timelineTab').addClass('active');
          for (var i = 0; i < this.friends.length; i++){
             var tweets = this.friends[i].tweets;
             for (var ii = 0; ii < tweets.length; ii++){
@@ -162,9 +128,7 @@ chirperApp.displayTweets = function (index) {
     // just showing tweets of one friend
     else if ((index < this.friends.length) && (index >= 0)) {
         $('#myTweetsTab, #timelineTab, #panel0, #panel1').removeClass('active');
- //       $('#timelineTab').removeClass('active');
         $('#singleFriendTweets, #panel2').addClass('active');
- //       $('#panel2').addClass('active');
         tweetsToDisplay = this.friends[index].tweets;
     }
 
@@ -194,55 +158,63 @@ chirperApp.displayTweets = function (index) {
             var start = tweetsToDisplay.length - 5;
         }
     }
-//    alert('building list in display tweets');
+
     for (var i = start; i < tweetsToDisplay.length; i++) {
         var tweet = tweetsToDisplay[i];
-        h += '<div class="row tweet">';
-        // If showing user tweets, allow delete button - 4 columns
+        h += '<div class="col-xs-12 tweetFrame">';
+        // If showing user tweets, don't show user, and allow delete button
         if (index == -2) {
-            h += '<div class="col-md-2 column center-block">' + tweet.user + '</div>';
-            h += '<div class="col-md-5 column center-block">' + tweet.message + '</div>';
-            h += '<div class="col-md-3 column center-block">' + moment(tweet.timestamp).format('lll') + '</div>';
-            h += '<div class="col-md-2 column center-block"><button class="btn btn-primary btn-xs" onclick="chirperApp.deleteTweet(' + i + ')">Delete Tweet</button></div>';
+            h += '<p class="col-xs-3 center-block">' + moment(tweet.timestamp).format('lll') + '</p>';
+            h += '<p class=" tweet col-xs-9 column center-block">' + tweet.message + '<button class="close" aria-hidden="true" onclick="chirperApp.deleteTweet(' + i + ')">x</button></p>';
         }
-            // only 3 columns
+        // timeline or individual tweets, don't show delete and show the user
         else { 
-            h += '<div class="col-md-4 column center-block">' + tweet.user + '</div>';
-            h += '<div class="col-md-4 column center-block">' + tweet.message + '</div>';
-            h += '<div class="col-md-4 column center-block">' + moment(tweet.timestamp).format('lll') + '</div>';            
+            h += '<div class="col-xs-2 column center-block">' + tweet.user + '</div>';
+            if (moment(tweet.timestamp).isValid())
+            {
+                h += '<div class="col-xs-3 column center-block">' + moment(tweet.timestamp).format('lll') + '</div>';
+            }
+            else
+            {
+                h += '<div class="col-xs-3 column center-block"></div>';
+            }
+           
+            h += '<div class=" tweet col-xs-7 column center-block">' + tweet.message + '</div>';
         }
 
-        h += '</div> <br />'; //row
+        h += '</div>'; 
     }
-
- //   alert('ready to write tweets in display tweets');
-
+    
+    h += '<div div class="col-xs-12" style="margin-top: 10px; margin-bottom: 10px;">';
     // Display user tweets
     if (index == -2){
         if (this.showAllMyTweets) {
-            h += '<button class="btn btn-primary center-block btn-sm" onclick="chirperApp.displayAllMyTweets(false)">Show Fewer Tweets</button><br/>';
+            h += '<button class="btn btn-primary center-block btn-xs" onclick="chirperApp.displayAllMyTweets(false)">Show Fewer Tweets</button>';
         }
         else{
-            h += '<button class="btn btn-primary center-block btn-sm" onclick="chirperApp.displayAllMyTweets(true)">Show All Tweets</button><br/>';
+            h += '<button class="btn btn-primary center-block btn-xs" onclick="chirperApp.displayAllMyTweets(true)">Show All Tweets</button>';
         }
+        h += '</div>';
         document.getElementById('tweetTable').innerHTML = h;
     }
-    else if (index == -1){
+    else if (index == -1){ // display timeline
         if (this.showAllTimelineTweets) {
-            h += '<button class="btn btn-primary center-block btn-sm" onclick="chirperApp.displayAllTimelineTweets(false)">Show Fewer Tweets</button><br/>';
+            h += '<button class="btn btn-primary center-block btn-xs" onclick="chirperApp.displayAllTimelineTweets(false)">Show Fewer Tweets</button>';
         }
         else{
-            h += '<button class="btn btn-primary center-block btn-sm" onclick="chirperApp.displayAllTimelineTweets(true)">Show All Tweets</button><br/>';
+            h += '<button class="btn btn-primary center-block btn-xs" onclick="chirperApp.displayAllTimelineTweets(true)">Show All Tweets</button>';
         }
+        h += '</div>';
         document.getElementById('timelineTable').innerHTML = h;
     }
     else if (index >= 0) {
         if (this.showAllFriendTweets) {
-            h += '<button class="btn btn-primary center-block btn-sm" onclick="chirperApp.displayAllFriendTweets(false, ' + index + ')">Show Fewer Tweets</button><br/>';
+            h += '<button class="btn btn-primary center-block btn-xs" onclick="chirperApp.displayAllFriendTweets(false, ' + index + ')">Show Fewer Tweets</button>';
         }
         else {
-            h += '<button class="btn btn-primary center-block btn-sm" onclick="chirperApp.displayAllFriendTweets(true, ' + index + ')">Show All Tweets</button><br/>';
+            h += '<button class="btn btn-primary center-block btn-xs" onclick="chirperApp.displayAllFriendTweets(true, ' + index + ')">Show All Tweets</button>';
         }
+        h += '</div>';
         document.getElementById('friendsTweetTable').innerHTML = h;
     }
 
@@ -377,9 +349,9 @@ chirperApp.updateUser = function () {
 chirperApp.addTweet = function () {
     var user = $('#userID').val();
     var timestamp = $('#timestampID').val();
-    var tweet = $('#tweetID').val();
+    var message = $('#tweetID').val();
 
-    var newTweet = new this.Tweet(user, timestamp, tweet);
+    var newTweet = new this.Tweet(user, timestamp, message);
 
     var config = {
         verb: 'POST',
@@ -393,17 +365,21 @@ chirperApp.addTweet = function () {
 
 
 chirperApp.deleteTweet = function (index) {
-    var tweet = this.Tweets[index];
-    var config = {
-        verb: 'DELETE',
-        uRL: chirperApp.buildRequestURL(tweet.id, '.json'),
-        success: function (config, data) {
-            chirperApp.Tweets.remove(index);
-            chirperApp.displayTweets(-2);
-        },
-        error: chirperApp.errorCallback
-    };
-    firebaseRequest(config);
+    if (confirm("Are you sure you want to delete this tweet?"))
+    {
+        var tweet = this.Tweets[index];
+        var config = {
+            verb: 'DELETE',
+            uRL: chirperApp.buildRequestURL('tweets/', tweet.id, '.json'),
+            success: function (config, data) {
+                chirperApp.Tweets.remove(index);
+                chirperApp.displayTweets(-2);
+            },
+            error: chirperApp.errorCallback
+        };
+        firebaseRequest(config);
+    }
+    
 }
 
 var firebaseRequest = function (config) {
@@ -480,8 +456,10 @@ chirperApp.showUserFriendsInfo = function (user){
         h += '<hr/>'
         h += '</div>';
     }
+
     if (user) {
-        h += '<button class="btn-xs btn-primary btn-default center-block" data-toggle="modal" onclick="chirperApp.launchUserForm()">Add User</button>'
+        // when ability is in  place to have multiple users, remove comments around this - until then, adding a user doesn't make sense
+        //h += '<button class="btn-xs btn-primary btn-default center-block" data-toggle="modal" onclick="chirperApp.launchUserForm()">Add User</button>'
         $('#userProfile').html(h);
     }
     else{
@@ -514,7 +492,7 @@ chirperApp.loadUserTweetSuccess = function (config, data) {
         var tweet = data[m];
         tweet.id = m;
         chirperApp.Tweets.push(tweet);
-    }
+     }
 
     chirperApp.displayTweets(-2);
 }
@@ -526,6 +504,13 @@ chirperApp.loadFriendTweetSuccess = function (config, data) {
         var tweet = data[m];
         tweet.id = m;
         friend.tweets.push(tweet);
+        if (tweet.user === undefined) {
+            if (tweet.name !== undefined)
+            {
+                tweet.user = tweet.name;
+            }
+            
+        }
     }
      chirperApp.friendsTweetsUntilDisplay--;
     if (chirperApp.friendsTweetsUntilDisplay == 0) {
@@ -589,13 +574,10 @@ chirperApp.errorCallback = function (status) {
 }
 
 chirperApp.extractAndPush = function (array, data) {
-    //    chirperApp.Tweets.length = 0;
-
-    for (var m in data) {
+     for (var m in data) {
         var item = data[m];
         item.id = m;
         array.push(item);
-
     }
 }
 
@@ -677,23 +659,5 @@ chirperApp.loadUserAndFriends = function () {
 }
 
 chirperApp.loadUserAndFriends();
-//chirperApp.showUserFriendsInfo();
-
-//chirperApp.loadUserAndFriends();
-//chirperApp.loadAllTweets();
-
-// setInterval(function () { chirperApp.loadAllTweets(); chirperApp.displayTweets(-2); chirperApp.displayTweets(-1) }, 10000);
 setInterval(function () { chirperApp.loadUserTweets(); chirperApp.loadFriendsTweets(); }, 10000);
 
-//$(document).ready(function () {
-//    $("#myTweetsTab, #timelineTab, #singleFriendTweets").click(function () {
-//        $("#myTweetsTab, #timelineTab, #singleFriendTweets").removeClass('active');
-//        $(this).addClass('active');
-//    });
-
-
-    //$('#myTweetsTab').removeClass('active');
-    //$('#timelineTab').removeClass('active');
-    //$('#singleFriendTweets').removeClass('active');
-
-//})

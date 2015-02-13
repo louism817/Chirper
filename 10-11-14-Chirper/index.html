@@ -3,86 +3,73 @@
 <head>
     <link href="style.css" rel="stylesheet" />
     <link href="Content/bootstrap.css" rel="stylesheet" />
-
     <link href="Content/bootstrap-theme.css" rel="stylesheet" />
     <title>
 
     </title>
 </head>
 <body>
-    
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-3 column">
-                <h3 style="text-align:center">Friends</h3>
-                <div class="friends" id="friendProfiles"></div>
-                 <h3 style="text-align:center">User</h3>
-                <div class="friends" id="userProfile"></div>                
+                <div class="outlineBox">
+                    <h3 style="text-align:center">Friends</h3>
+                    <div class="friends" id="friendProfiles"></div>
+                    <h3 style="text-align:center">User</h3>
+                    <div class="friends" id="userProfile"></div>
+                </div>
             </div>
-            <div class="col-md-9 column"> 
-                <h3 style="text-align:center"> Troop 77 Tweets</h3>
-                <div class="tabbable" id="tabs-230705">
-                    <ul class="nav nav-tabs">
-                        <li id="myTweetsTab" class="active">
-                            <a href="#panel0" data-toggle="tab">My Tweets</a>
-                        </li>
-                        <!--
-                        <li id="timelineTab" onclick="chirperApp.displayTweets(-1);">
-                            <a href="#panel1" data-toggle="tab">Timeline</a>
-                        </li>
-                        <li id="singleFriendTweets" onclick="chirperApp.displayTweets(-1);">
-                            <a href="#panel2" data-toggle="tab">Friend Tweet</a>
-                        </li>
-                            -->
-                        <li id="timelineTab">
-                            <a href="#panel1" data-toggle="tab">Timeline</a>
-                        </li>
-                        <li id="singleFriendTweets">
-                            <a href="#panel2" data-toggle="tab">Friend Tweet</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="panel0">
-    <!--                        <div class="col-md-12 column" id="tweetTable"></div> -->
-                            <div  id="tweetTable"></div>
-                            <button class="btn-sm btn-primary btn-default center-block" data-toggle="modal"
-                                    onclick="chirperApp.launchTweetForm()">
-                                New Tweet
-                            </button>
-                        </div>
-                        <div class="tab-pane" id="panel1">
-                            <div class="col-md-12 column" id="timelineTable"> </div>
-                            <button class="btn-sm btn-primary btn-default center-block" data-toggle="modal"
-                                    onclick="chirperApp.launchTweetForm()">
-                                New Tweet
-                            </button>
-                        </div>
-                        <div class="tab-pane" id="panel2">
-                            <div class="col-md-12 column" id="friendsTweetTable"> <h2>Select a Friends "Show Tweets" Button From Friends List </h2></div>
-                            <button class="btn-sm btn-primary btn-default center-block" data-toggle="modal"
-                                    onclick="chirperApp.launchTweetForm()">
-                                New Tweet
-                            </button>
+            <div class="col-md-9 column">
+                <div class="outlineBox">
+                    <h3 style="text-align:center"> Troop 77 Tweets</h3>
+                    <div class="tabbable" id="tabs-230705">
+                        <ul class="nav nav-tabs">
+                            <li id="myTweetsTab" class="active">
+                                <a href="#panel0" data-toggle="tab">My Tweets</a>
+                            </li>
+                            <li id="timelineTab">
+                                <a href="#panel1" data-toggle="tab">Timeline</a>
+                            </li>
+                            <li id="singleFriendTweets">
+                                <a href="#panel2" data-toggle="tab">Friend Tweet</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="panel0">
+                                <div id="tweetTable"></div>
+                                <button class="btn btn-xs btn-primary center-block" data-toggle="modal"
+                                        onclick="chirperApp.launchTweetForm()">
+                                    New Tweet
+                                </button>
+                            </div>
+                            <div class="tab-pane" id="panel1">
+                                <div class="col-md-12 column" id="timelineTable"> </div>
+                                <button class="btn btn-xs btn-primary center-block" data-toggle="modal"
+                                        onclick="chirperApp.launchTweetForm()">
+                                    New Tweet
+                                </button>
+                            </div>
+                            <div class="tab-pane" id="panel2">
+                                <div class="col-md-12 column" id="friendsTweetTable"> <h2>Select a Friends "Show Tweets" Button From Friends List </h2></div>
+                                <button class="btn btn-xs btn-primary center-block" data-toggle="modal"
+                                        onclick="chirperApp.launchTweetForm()">
+                                    New Tweet
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-        
+
         <div class="row clearfix">
             <div class="col-md-12 column" id="tweetTable">
-
             </div>
-
-
         </div>
+
         <div class="row clearfix">
-
-
-
         </div>
-        
+
         <!-- Modal -->
         <div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
@@ -99,39 +86,41 @@
                     </div>
                     <div class="modal-body">
                         <div id="modalInputs">
-                            <div id="userNameDiv">
-                                <label for="userID">Enter Your Name:</label>
-                                <input type="text" id="userID" /><br />
-                            </div>
-                            <div id="timestampDiv">
-                                <label for="timestampID">Timestamp:</label>
-                                <input type="text" id="timestampID" /><br />
-                            </div>
-                            <div id="tweetDiv">
-                                <label for="tweetID">Tweet:</label>
-                                <input type="text" id="tweetID" /><br />
-                            </div>
-                            <div id="locationDiv">
-                                <label for="locationID">Location:</label>
-                                <input type="text" id="locationID" /><br />
-                            </div>
-                            <div id="photoDiv">
-                                <label for="photoID">Photo:</label>
-                                <input type="text" id="photoID" label>
-                            </div>
-                            <div id="friendURLDiv">
-                                <label for="friendURLID">Friend URL:</label>
-                                <input type="text" id="friendURLID" label>
-                            </div>
-
+                            <form role="form">
+                                <div id="userNameDiv" class="form-group">
+                                    <label for="userID">Enter Your Name:</label>
+                                    <input type="text" id="userID" class="form-control" /><br />
+                                </div>
+                                <div id="timestampDiv" class="form-group">
+                                    <label for="timestampID">Timestamp:</label>
+                                    <input type="text" id="timestampID" class="form-control" /><br />
+                                </div>
+                                <div id="tweetDiv" class="form-group">
+                                    <label for="tweetID">Tweet:</label>
+                                    <input type="text" id="tweetID" class="form-control" /><br />
+                                </div>
+                                <div id="locationDiv" class="form-group">
+                                    <label for="locationID">Location:</label>
+                                    <input type="text" id="locationID" class="form-control" /><br />
+                                </div>
+                                <div id="photoDiv" class="form-group">
+                                    <label for="photoID">Photo:</label>
+                                    <input type="text" id="photoID" class="form-control" >
+                                </div>
+                                <div id="friendURLDiv" class="form-group">
+                                    <label for="friendURLID">Friend URL:</label>
+                                    <input type="text" id="friendURLID" class="form-control" >
+                                </div>
+                            </form>
+                           
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
+                        <button type="button" class="btn btn-primary btn-xs"
                                 data-dismiss="modal">
                             Close
                         </button>
-                        <button type="button" id="saveTweetID" class="btn btn-primary" data-dismiss="modal">
+                        <button type="button" id="saveTweetID" class="btn btn-primary btn-xs" data-dismiss="modal">
                             Save Tweet
                         </button>
                     </div>
@@ -143,7 +132,6 @@
     <script src="Scripts/jquery-2.1.1.js"></script>
     <script src="Scripts/moment.js"></script>
     <script src="Scripts/bootstrap.js"></script>
-
     <script src="script.js"></script>
 </body>
 </html>
